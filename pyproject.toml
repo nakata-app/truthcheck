@@ -20,7 +20,10 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.5"]
+dev = ["pytest>=8.0", "ruff>=0.5", "requests>=2.32"]
+brave = ["requests>=2.32"]
+nli = ["sentence-transformers>=3.0"]
+cache = []  # stdlib sqlite3 — placeholder for future Redis backend
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
@@ -43,3 +46,7 @@ addopts = "-q"
 [tool.mypy]
 python_version = "3.10"
 strict = true
+
+[[tool.mypy.overrides]]
+module = ["requests", "requests.*", "sentence_transformers"]
+ignore_missing_imports = true
