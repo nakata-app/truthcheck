@@ -20,7 +20,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from truthcheck.backends import BraveBackend, SearchBackend, Snippet
+from truthcheck.backends import BraveBackend, ExaBackend, SearchBackend, Snippet
 from truthcheck.cache import VerdictCache
 from truthcheck.splitter import split_claims
 from truthcheck.types import Source, Verdict, VerdictStatus
@@ -35,7 +35,7 @@ class WebFactChecker:
 
     def __init__(
         self,
-        backend: str | SearchBackend = "brave",
+        backend: str | SearchBackend = "exa",
         api_key: str | None = None,
         trusted_domains: list[str] | None = None,
         cache_dir: str | None = None,
@@ -47,12 +47,14 @@ class WebFactChecker:
         dry_run: bool = False,
     ) -> None:
         if isinstance(backend, str):
-            if backend == "brave":
-                self.backend: SearchBackend = BraveBackend(api_key=api_key)
+            if backend == "exa":
+                self.backend: SearchBackend = ExaBackend(api_key=api_key)
+            elif backend == "brave":
+                self.backend = BraveBackend(api_key=api_key)
             else:
                 raise ValueError(
-                    f"Unknown backend '{backend}'. v0.1 ships only 'brave'. "
-                    "Exa / DDG land in v0.2."
+                    f"Unknown backend '{backend}'. v0.1 ships 'exa' (default) "
+                    "and 'brave'. DDG / SearXNG land in v0.2."
                 )
         else:
             self.backend = backend
