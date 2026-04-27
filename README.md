@@ -1,6 +1,6 @@
 # truthcheck
 
-**Open-world fact verification for AI claims — the web-search complement to [`halluguard`](https://github.com/nakata-app/halluguard).**
+**Open-world fact verification for AI claims, the web-search complement to [`halluguard`](https://github.com/nakata-app/halluguard).**
 
 > Status: **early draft / vision document.** No working implementation yet. The
 > sibling cluster (`adaptmem` + `halluguard` + `claimcheck`) ships today and
@@ -19,7 +19,7 @@ company's internal docs, your codebase). It is **not** enough when:
 
 - An LLM cites a figure ("Türkiye nüfusu 85 milyon").
 - An LLM dates an event ("Bitcoin halving was in May 2024").
-- An LLM names a person ("Ben Sigman is the lead developer of MemPalace").
+- An LLM names a person ("Linus Torvalds created Python in 1991").
 - An LLM repeats a recent news fact ("OpenAI released o4-mini in March 2026").
 
 Halluguard can't answer because the **ground truth** lives on the open web,
@@ -35,7 +35,7 @@ not in the user's corpus. That's `truthcheck`'s job.
    "no LLM, no internet, deterministic." Truthcheck explicitly says
    "yes LLM (probably), yes internet, probabilistic." Honest naming.
 3. **Backend-agnostic.** Brave Search, Exa, Bing, DuckDuckGo, your
-   internal corporate Confluence + Notion — anything that returns
+   internal corporate Confluence + Notion, anything that returns
    ranked snippets should plug in.
 4. **Cost-aware.** Web search APIs cost money. Truthcheck must
    - tell the caller a USD estimate per claim before issuing requests
@@ -60,7 +60,7 @@ verdict = checker.check(
 )
 # Verdict {
 #   status: SUPPORTED | UNSUPPORTED | CONTRADICTED | INCONCLUSIVE,
-#   confidence: 0.0–1.0,
+#   confidence: 0.0, 1.0,
 #   sources: [
 #     Source(url="https://www.worldometers.info/...", snippet="...", score=0.91),
 #     Source(url="https://en.wikipedia.org/wiki/Demographics_of_Turkey", ...),
@@ -129,7 +129,7 @@ verified through one call site (a future helper in `claimcheck`).
 
 ## License
 
-MIT (planned, not yet committed — repo is pre-v0.1).
+MIT (planned, not yet committed, repo is pre-v0.1).
 
 ## Status
 
