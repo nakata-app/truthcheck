@@ -1,6 +1,6 @@
 [project]
 name = "truthcheck"
-version = "0.0.1"
+version = "0.1.0"
 description = "Open-world fact verification for AI claims (sibling to halluguard, which handles closed-world)."
 readme = "README.md"
 requires-python = ">=3.10"

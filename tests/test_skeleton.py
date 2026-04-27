@@ -13,7 +13,7 @@ import pytest
 def test_imports_and_version():
     import truthcheck
 
-    assert truthcheck.__version__ == "0.0.1"
+    assert truthcheck.__version__ == "0.1.0"
     assert truthcheck.WebFactChecker is not None
     assert truthcheck.Verdict is not None
     assert truthcheck.Source is not None

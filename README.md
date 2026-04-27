@@ -2,11 +2,9 @@
 
 **Open-world fact verification for AI claims, the web-search complement to [`halluguard`](https://github.com/nakata-app/halluguard).**
 
-> Status: **early draft / vision document.** No working implementation yet. The
-> sibling cluster (`adaptmem` + `halluguard` + `claimcheck`) ships today and
-> handles the closed-world case. Truthcheck is the open-world counterpart and
-> is intentionally a separate package so it doesn't compromise the
-> "no LLM, no internet" positioning of halluguard.
+> Status: **v0.1, working.** Pipeline ships: Exa search backend, NLI verifier
+> (lexical fallback when sentence-transformers not installed), SQLite cache,
+> atomic claim splitter. Sibling to `adaptmem` + `halluguard` + `claimcheck`.
 
 ---
 
@@ -48,8 +46,8 @@ not in the user's corpus. That's `truthcheck`'s job.
 from truthcheck import WebFactChecker
 
 checker = WebFactChecker(
-    backend="brave",                    # or "exa", "bing", "ddg"
-    api_key=os.environ["BRAVE_API_KEY"],
+    backend="exa",                       # default; "brave" also supported
+    api_key=os.environ["EXA_API_KEY"],
     trusted_domains=["wikipedia.org", "*.gov", "*.edu"],
     cache_dir="~/.cache/truthcheck",
 )
@@ -72,27 +70,21 @@ verdict = checker.check(
 # }
 ```
 
-## Open design questions (need decisions before v0.1)
+## v0.1 decisions (closed)
 
-1. **Default backend.** Brave (free 2k/mo), Exa (1k/mo), DuckDuckGo (no API,
-   needs scraping). Pick one default; let the rest be opt-in.
-2. **Atomic claim splitting.** "Türkiye nüfusu 85 milyon, 81 il" is two
-   claims. Split with regex? Spacy? Small LLM (Llama 3.2 1B locally)?
-   Each option has a different "no LLM" violation tier.
-3. **Trusted-domain policy.** Allow-list only (strict, narrow), allow-list
-   weighted (loose, flexible), or domain-reputation score (Wikipedia
-   high, random blog low)?
-4. **Recency awareness.** Some claims are time-sensitive ("Bitcoin price
-   today"). Should truthcheck refuse those, mark them with a low
-   confidence ceiling, or stamp a "as-of date" on the verdict?
-5. **Contradiction handling.** Three sources say 85 million, two say
-   84 million. Majority wins? Highest-trust wins? Both reported?
-6. **API surface for caching.** Disk only? Redis? Plug-in storage? Default
-   to SQLite under XDG cache.
-7. **LLM optionality.** Truthcheck almost certainly needs an LLM for
-   atomic claim splitting and source-snippet entailment. Make it
-   pluggable so a sufficiently advanced regex / NLI pipeline could
-   substitute. Document the tradeoff explicitly in the README.
+- **Default backend:** Exa (Brave's free tier was removed)
+- **Splitter:** regex-based, deterministic, spacy/LLM in v0.2
+- **Verifier:** NLI cross-encoder; lexical fallback when sentence-transformers absent
+- **Cache:** SQLite under `~/.cache/truthcheck`
+- **Contradiction:** INCONCLUSIVE + all sources surfaced
+- **Recency:** `as_of` timestamp stamped on every verdict
+
+## Open for v0.2
+
+- Turkish / multilingual NLI model
+- spacy or small LLM for compound claim splitting
+- DDG / SearXNG backend (no API key)
+- Redis cache backend
 
 ## Composition with the cluster
 
@@ -129,12 +121,16 @@ verified through one call site (a future helper in `claimcheck`).
 
 ## License
 
-MIT (planned, not yet committed, repo is pre-v0.1).
+MIT
 
-## Status
+## Install
 
-Pre-v0.1. This README is the design doc. No code beyond stubs yet.
-Read [`ROADMAP.md`](ROADMAP.md) for the milestone breakdown.
+```bash
+pip install "truthcheck[brave]"   # Brave backend
+pip install "truthcheck[nli]"     # NLI verifier (sentence-transformers)
+```
+
+Set `EXA_API_KEY` or `BRAVE_API_KEY` env var before use.
 
 ---
 
