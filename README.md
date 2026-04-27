@@ -19,7 +19,7 @@ company's internal docs, your codebase). It is **not** enough when:
 
 - An LLM cites a figure ("Türkiye nüfusu 85 milyon").
 - An LLM dates an event ("Bitcoin halving was in May 2024").
-- An LLM names a person ("Linus Torvalds created Python in 1991").
+- An LLM names a person ("Alice Novak is the lead developer of Project X").
 - An LLM repeats a recent news fact ("OpenAI released o4-mini in March 2026").
 
 Halluguard can't answer because the **ground truth** lives on the open web,
