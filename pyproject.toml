@@ -1,0 +1,45 @@
+[project]
+name = "truthcheck"
+version = "0.0.1"
+description = "Open-world fact verification for AI claims (sibling to halluguard, which handles closed-world)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "atakan" }]
+keywords = ["llm", "fact-check", "verification", "rag", "open-world", "halluguard"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# v0.0 has no runtime deps (only stubs). v0.1 will add backend + http client.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["truthcheck*"]
+
+[tool.setuptools.package-data]
+truthcheck = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
