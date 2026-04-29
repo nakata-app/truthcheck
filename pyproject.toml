@@ -48,5 +48,5 @@ python_version = "3.10"
 strict = true
 
 [[tool.mypy.overrides]]
-module = ["requests", "requests.*", "sentence_transformers"]
+module = ["requests", "requests.*", "sentence_transformers", "numpy"]
 ignore_missing_imports = true
