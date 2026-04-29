@@ -20,7 +20,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.5", "requests>=2.32"]
+dev = ["pytest>=8.0", "pytest-cov>=4.1", "ruff>=0.5", "requests>=2.32"]
 brave = ["requests>=2.32"]
 nli = ["sentence-transformers>=3.0"]
 cache = []  # stdlib sqlite3 — placeholder for future Redis backend
